@@ -128,6 +128,15 @@ export default function LaunchSearch(props) {
         )
       }
 
+
+      <footer className='text-center' style={{
+        position: "absolute",
+        left: 0,
+        bottom: 20,
+        right: 0,
+      }}>
+        Developed by <a href="https://www.github.com/andytubeee">Andrew Yang</a> & copy; {new Date().getFullYear()}
+      </footer >
     </>
   );
 }

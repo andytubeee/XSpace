@@ -1,4 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
+import { useRouter } from "next/router";
 import LaunchesCard from "./LaunchesCard";
 import Swal from "sweetalert2";
 import { useState, useEffect } from "react";
@@ -26,13 +27,7 @@ export default function Launches(props) {
   const [newData, setNewData] = useState([]);
   const [ready, setReady] = useState(false);
 
-  //   useEffect(() => {
-  //     if (data) {
-  //       if (!ready) {
-  //         setNewData(Array.from(data.launches).splice(0, amount));
-  //       }
-  //     }
-  //   }, [amount]);
+  const router = useRouter();
 
   function shuffle(array) {
     var currentIndex = array.length,
@@ -121,6 +116,9 @@ export default function Launches(props) {
   return (
     <>
       <hr />
+      <button className="btn btn-secondary" onClick={() => router.push("/")}>
+        Back
+      </button>
       <h1 className="display-4 my-3 text-center">Launches Generator</h1>
       <form>
         <div className="form-group d-flex flex-column">

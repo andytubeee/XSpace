@@ -17,6 +17,15 @@ export default function Home() {
     const router = useRouter();
     return (
         <ApolloProvider client={client}>
+            <Head>
+                <style jsx>
+                    {`
+                    body {
+                        background-color: #fff;
+                    }
+                    `}
+                </style>
+            </Head>
             <div className="container">
                 <img
                     src="/assets/images/SpaceXLogoFull.png"

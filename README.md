@@ -14,12 +14,17 @@ Application developed using SpaceX's v3 API.
 ## Functions
 
 - Generate Launches
+    - Launch information
+    - Rocket information
+    - YouTube video
 - Search for Launches
 - Comment for other features you would like
 
 ## Notes
 
-This uses Yarn so ya, don't use NPM
+This uses Yarn so ya, don't use NPM.
+
+Server API is disabled due to proxy error, currently routed to official one.
 
 ## Appreciation
 

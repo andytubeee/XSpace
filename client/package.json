@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.15",
+    "@lottiefiles/react-lottie-player": "^3.1.2",
     "apollo-server-micro": "^2.23.0",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
@@ -23,6 +24,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-particles-js": "^3.4.1",
+    "react-youtube": "^7.13.1",
     "sweetalert2": "^10.16.3"
   },
   "proxy": "http://localhost:5000"

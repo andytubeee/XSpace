@@ -1,4 +1,5 @@
-import axios from 'axios'
+import YouTube from 'react-youtube';
+import { Player } from '@lottiefiles/react-lottie-player';
 
 export default function LaunchesCard(props) {
   const {
@@ -6,7 +7,8 @@ export default function LaunchesCard(props) {
     launch_year,
     launch_success,
     launch_date_local,
-    mission_id
+    mission_id,
+    links
   } = props.launch;
   const { rocket_name, rocket_type, rocket } = props.launch.rocket;
 
@@ -16,6 +18,10 @@ export default function LaunchesCard(props) {
 
   const getURLEnding = (url) => {
     return String(String(url).split('/')[4]).split('_').join(' ')
+  }
+
+  const getYouTubeID = (url) => {
+    return String(url).split('=')[1]
   }
 
   return (
@@ -47,17 +53,30 @@ export default function LaunchesCard(props) {
             <span className="text-secondary">{"Null"}</span>
           </p>
         )}
+        <div className="d-flex justify-content-between" style={{ width: "35%" }}>
 
-        <button
-          class="btn btn-info"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target={`#rocketInfo${props.id}`}
-          aria-expanded="false"
-          aria-controls="rocketInfo"
-        >
-          View Rocket Info
+          <button
+            class="btn btn-info"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target={`#rocketInfo${props.id}`}
+            aria-expanded="false"
+            aria-controls="rocketInfo"
+          >
+            View Rocket Info
         </button>
+          <button
+            class="btn btn-danger"
+            style={{ color: "white", background: "#ff3232" }}
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target={`#launchVideo${props.id}`}
+            aria-expanded="false"
+            aria-controls="rocketInfo"
+          >
+            Watch YouTube Video
+        </button>
+        </div>
         <div class="collapse mt-4" id={`rocketInfo${props.id}`}>
           <p>
             <strong>Rocket Name:</strong> {rocket_name}
@@ -68,6 +87,19 @@ export default function LaunchesCard(props) {
           <p>
             <strong>Wikipedia Page:</strong> <a href={rocket.wikipedia} target="__blank">{getURLEnding(rocket.wikipedia)}</a>
           </p>
+        </div>
+
+        <div className="collapse mt-3" id={`launchVideo${props.id}`}>
+          {/* <Player
+            autoplay
+            loop
+            src="https://assets9.lottiefiles.com/private_files/lf30_pxhw9ty3.json"
+            style={{ height: '200px', width: '200px' }}
+          /> */}
+          <iframe id={`launchVideo${props.id}player`} type="text/html" width="640" height="360"
+            src={`https://www.youtube.com/embed/${getYouTubeID(links.video_link)}`}
+            frameborder="0"></iframe>
+          {/* <YouTube videoId={getYouTubeID(links.video_link)} /> */}
         </div>
       </div>
     </>

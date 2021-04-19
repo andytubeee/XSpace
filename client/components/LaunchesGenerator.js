@@ -13,6 +13,9 @@ const LAUNCHES_QUERY = gql`
     mission_id
     launch_date_local
     launch_success
+    links {
+      video_link
+    }
     rocket {
       rocket_name
       rocket_type
@@ -171,6 +174,7 @@ export default function LaunchesGenerator(props) {
               .map((launch, index) => (
                 <LaunchesCard launch={launch} id={index} />
               ))}
+          {data && console.log(data.launches)}
         </>
       )}
 

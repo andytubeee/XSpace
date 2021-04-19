@@ -15,11 +15,11 @@ app.use(
     }),
 );
 
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client/out', 'index.html'))
-})
+// app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, 'client/out', 'index.html'))
+// })
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => console.log("Server is started on port " + PORT));

@@ -11,6 +11,7 @@
   "author": "Andrew Yang",
   "license": "MIT",
   "dependencies": {
+    "apollo-server": "^2.23.0",
     "axios": "^0.21.1",
     "concurrently": "^6.0.2",
     "cors": "^2.8.5",

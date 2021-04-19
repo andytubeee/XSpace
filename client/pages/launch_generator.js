@@ -9,7 +9,7 @@ import {
 import LaunchesGenerator from "../components/LaunchesGenerator";
 
 const client = new ApolloClient({
-    uri: "/graphql",
+    uri: "https://api.spacex.land/graphql/",
     cache: new InMemoryCache(),
 });
 

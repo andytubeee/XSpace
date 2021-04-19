@@ -1,20 +1,44 @@
+import axios from 'axios'
+
 export default function LaunchesCard(props) {
   const {
     mission_name,
     launch_year,
     launch_success,
     launch_date_local,
+    mission_id
   } = props.launch;
-  const { rocket_id, rocket_name, rocket_type } = props.launch.rocket;
+  const { rocket_name, rocket_type, rocket } = props.launch.rocket;
 
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
+
+  // const getHTMLTitle = async (url) => {
+  //   try {
+  //     return await axios.get(url).then((response) => response.data()).then((html) => {
+  //       const doc = new DOMParser().parseFromString(html, "text/html");
+  //       const title = doc.querySelectorAll('title')[0];
+  //       return title.innerText;
+  //     })
+  //   }
+  //   catch (err) {
+  //     return "Unable to Fetch Title"
+  //   }
+  // }
+
+  const getURLEnding = (url) => {
+    return String(String(url).split('/')[4]).split('_').join(' ')
+  }
+
   return (
     <>
       <div className="border mb-3 rounded p-3">
         <p>
           <strong>Mission Name:</strong> {mission_name}
+        </p>
+        <p>
+          <strong>Mission ID:</strong> {Array.from(mission_id).length > 0 ? Array.from(mission_id).join(', ') : "Null"}
         </p>
         <p>
           <strong>Launch Year:</strong> {launch_year}
@@ -49,13 +73,13 @@ export default function LaunchesCard(props) {
         </button>
         <div class="collapse mt-4" id={`rocketInfo${props.id}`}>
           <p>
-            <strong>Rocket ID:</strong> {rocket_id}
-          </p>
-          <p>
             <strong>Rocket Name:</strong> {rocket_name}
           </p>
           <p>
             <strong>Rocket Type:</strong> {rocket_type}
+          </p>
+          <p>
+            <strong>Wikipedia Page:</strong> <a href={rocket.wikipedia} target="__blank">{getURLEnding(rocket.wikipedia)}</a>
           </p>
         </div>
       </div>

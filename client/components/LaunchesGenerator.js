@@ -7,17 +7,20 @@ import { useState, useEffect } from "react";
 const LAUNCHES_QUERY = gql`
   query LaunchesQuery {
     launches {
-      flight_number
-      mission_name
-      launch_date_local
-      launch_success
-      launch_year
+    mission_name
+    launch_year
+    id
+    mission_id
+    launch_date_local
+    launch_success
+    rocket {
+      rocket_name
+      rocket_type
       rocket {
-        rocket_id
-        rocket_name
-        rocket_type
+        wikipedia
       }
     }
+  }
   }
 `;
 
@@ -58,6 +61,7 @@ export default function LaunchesGenerator(props) {
       });
     }
     if (loading) {
+      let timerInterval
       Swal.fire({
         title: "Loading!",
         html: "Please be patient...",
@@ -135,14 +139,28 @@ export default function LaunchesGenerator(props) {
               }
             }}
           ></input>
-          <button
-            type="button"
-            class="btn btn-primary mt-3 align-self-end"
-            onClick={handleGenerateClick}
-          >
-            {ready ? "Clear" : "Generate"}
-          </button>
+
+          <div className="d-flex justify-content-between align-items-center mt-3">
+            <div class="form-group d-inline">
+              <label for="filter-selector">Filter</label>
+              <select class="form-control" id="filter-selector" disabled={!ready}>
+                <option>Mission ID</option>
+                <option>Launch Date</option>
+                <option>Launch Success</option>
+                <option>Mission Name</option>
+              </select>
+            </div>
+            <button
+              type="button"
+              class="btn btn-primary mt-3"
+              onClick={handleGenerateClick}
+            >
+              {ready ? "Clear" : "Generate"}
+            </button>
+          </div>
+
         </div>
+
       </form>
 
       {ready && (

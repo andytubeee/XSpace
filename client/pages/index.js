@@ -69,7 +69,7 @@ export default function Home() {
               }}
               style={{ width: 700, cursor: "pointer" }}
             />
-            <div className="d-flex w-50 justify-content-around flex-wrap">
+            <div className="d-flex w-50 justify-content-around flex-wrap mr-5">
               <button
                 type="button"
                 class="btn btn-primary mb-4"

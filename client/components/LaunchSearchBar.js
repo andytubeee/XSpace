@@ -3,27 +3,29 @@ import { useRouter } from "next/router";
 import LaunchesCard from "./LaunchesCard";
 import Swal from "sweetalert2";
 import { useState, useEffect } from "react";
-import LaunchSearchResultCard from "./LaunchSearchResultCard";
 
 
 
 export default function LaunchSearch(props) {
-  const [flight_id, set_flightID] = useState(1)
+  const [mission_id, set_missionID] = useState("")
 
   var LAUNCH_QUERY = gql`
   query LaunchSearchQuery {
-      launches {
-        flight_number
-        mission_name
-        launch_date_local
-        launch_success
-        launch_year
+    launches {
+      mission_name
+      launch_year
+      id
+      mission_id
+      launch_date_local
+      launch_success
+      rocket {
+        rocket_name
+        rocket_type
         rocket {
-          rocket_id
-          rocket_name
-          rocket_type
+          wikipedia
         }
-    }
+      }
+  }
   }
 `;
 
@@ -34,8 +36,14 @@ export default function LaunchSearch(props) {
   const [searched, setSearched] = useState(false);
   const [filteredFlight, setFilteredFlight] = useState([]);
 
-  const searchLaunch = (allLaunch, flightNumber) => {
-    return Array.from(allLaunch).filter(launch => launch.flight_number === flightNumber);
+  const searchLaunch = (allLaunch, missionID) => {
+    let matchLaunch = []
+    Array.from(allLaunch).forEach(launch => {
+      if (Array.from(launch.mission_id).includes(missionID)) {
+        matchLaunch.push(launch)
+      }
+    })
+    return matchLaunch
   }
 
   const handleSearchClick = () => {
@@ -47,6 +55,7 @@ export default function LaunchSearch(props) {
       });
     }
     if (loading) {
+      let timerInterval
       Swal.fire({
         title: "Loading!",
         html: "Please be patient...",
@@ -77,8 +86,16 @@ export default function LaunchSearch(props) {
 
     if (!searched) {
       if (data) {
-        setFilteredFlight(searchLaunch(Array.from(data.launches), Number(flight_id)))
-        setSearched(true)
+        if (searchLaunch(Array.from(data.launches), mission_id).length == 0) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "No Launch Found with Given ID",
+          });
+        } else {
+          setFilteredFlight(searchLaunch(Array.from(data.launches), mission_id))
+          setSearched(true)
+        }
       }
     } else {
       setSearched(false)
@@ -97,14 +114,13 @@ export default function LaunchSearch(props) {
         <div className="form-group d-flex flex-column">
           <label>Flight ID</label>
           <input
-            type="number"
             className="form-control"
             placeholder="ID"
             disabled={searched}
             style={searched ? { cursor: "not-allowed" } : { cursor: "text" }}
             onChange={(e) => {
               if (!searched) {
-                set_flightID(e.target.value)
+                set_missionID(e.target.value)
               }
             }}
           ></input>
@@ -122,20 +138,20 @@ export default function LaunchSearch(props) {
         searched && (
           <>
             {Array.from(filteredFlight).map((launch, index) => {
-              return <LaunchSearchResultCard launch={launch} id={index} />
+              return <LaunchesCard launch={launch} id={index} />
             })}
           </>
         )
       }
 
 
-      <footer className='text-center' style={{
+      <footer className='text-center' style={filteredFlight.length < 1 ? {
         position: "absolute",
         left: 0,
         bottom: 20,
         right: 0,
-      }}>
-        Developed by <a href="https://www.github.com/andytubeee">Andrew Yang</a> & copy; {new Date().getFullYear()}
+      } : { marginBottom: 20 }}>
+        Developed by <a href="https://www.github.com/andytubeee">Andrew Yang</a> &copy; {new Date().getFullYear()}
       </footer >
     </>
   );

@@ -9,7 +9,7 @@ import {
 import LaunchSearch from '../components/LaunchSearchBar'
 
 const client = new ApolloClient({
-    uri: "/graphql",
+    uri: "https://api.spacex.land/graphql/",
     cache: new InMemoryCache(),
 });
 

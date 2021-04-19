@@ -14,19 +14,6 @@ export default function LaunchesCard(props) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  // const getHTMLTitle = async (url) => {
-  //   try {
-  //     return await axios.get(url).then((response) => response.data()).then((html) => {
-  //       const doc = new DOMParser().parseFromString(html, "text/html");
-  //       const title = doc.querySelectorAll('title')[0];
-  //       return title.innerText;
-  //     })
-  //   }
-  //   catch (err) {
-  //     return "Unable to Fetch Title"
-  //   }
-  // }
-
   const getURLEnding = (url) => {
     return String(String(url).split('/')[4]).split('_').join(' ')
   }

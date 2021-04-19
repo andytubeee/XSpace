@@ -77,7 +77,9 @@ export default function Home() {
               >
                 Launch Generator
             </button>
-              <button type="button" class="btn btn-primary mb-4">
+              <button type="button" class="btn btn-primary mb-4"
+                onClick={() => router.push("launch_search")}
+              >
                 Launch Search
             </button>
             </div>

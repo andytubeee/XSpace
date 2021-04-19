@@ -21,7 +21,7 @@ const LAUNCHES_QUERY = gql`
   }
 `;
 
-export default function Launches(props) {
+export default function LaunchesGenerator(props) {
   const { loading, error, data } = useQuery(LAUNCHES_QUERY);
   const [amount, setAmount] = useState(0);
   const [newData, setNewData] = useState([]);
@@ -92,9 +92,8 @@ export default function Launches(props) {
           Swal.fire({
             icon: "error",
             title: "Error",
-            text: `More than amount of data on server, the max is ${
-              Array.from(data.launches).length
-            }`,
+            text: `More than amount of data on server, the max is ${Array.from(data.launches).length
+              }`,
           });
           setAmount(Array.from(data.launches).length);
         }
@@ -156,6 +155,15 @@ export default function Launches(props) {
               ))}
         </>
       )}
+
+      <footer className='text-center' style={(!ready || amount <= 2) ? {
+        position: "absolute",
+        left: 0,
+        bottom: 20,
+        right: 0,
+      } : { marginBottom: 20 }}>
+        Developed by <a href="https://www.github.com/andytubeee">Andrew Yang</a> &copy; {new Date().getFullYear()}
+      </footer>
     </>
   );
 }

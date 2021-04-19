@@ -6,7 +6,7 @@ import {
     InMemoryCache,
     gql,
 } from "@apollo/client";
-import LaunchesGenerator from "../components/LaunchesGenerator";
+import LaunchSearch from '../components/LaunchSearchBar'
 
 const client = new ApolloClient({
     uri: "http://localhost:5000/graphql",
@@ -28,7 +28,7 @@ export default function Home() {
                     style={{ width: 500, cursor: 'pointer' }}
                 />
 
-                <LaunchesGenerator />
+                <LaunchSearch />
             </div>
         </ApolloProvider>
     );

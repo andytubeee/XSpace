@@ -17,6 +17,9 @@ Application developed using SpaceX's v3 API.
 - Search for Launches
 - Comment for other features you would like
 
+## Notes
+
+This uses Yarn so ya, don't use NPM
 
 ## Appreciation
 

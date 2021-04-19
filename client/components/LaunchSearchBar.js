@@ -18,6 +18,9 @@ export default function LaunchSearch(props) {
       mission_id
       launch_date_local
       launch_success
+      links {
+        video_link
+      }
       rocket {
         rocket_name
         rocket_type
@@ -112,7 +115,7 @@ export default function LaunchSearch(props) {
       <h1 className="display-4 my-3 text-center">Launch Search</h1>
       <form>
         <div className="form-group d-flex flex-column">
-          <label>Flight ID</label>
+          <label>Mission ID</label>
           <input
             className="form-control"
             placeholder="ID"

@@ -12,7 +12,7 @@ export default function LaunchSearchResultCard(props) {
     }
     return (
         <>
-            <h3>This is what I found: </h3>
+            <h3 style={{ marginTop: 100 }}>This is what I found: </h3>
             <div className="border mb-3 rounded p-3">
                 <p>
                     <strong>Mission Name:</strong> {mission_name}

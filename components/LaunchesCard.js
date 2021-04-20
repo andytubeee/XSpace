@@ -53,10 +53,10 @@ export default function LaunchesCard(props) {
             <span className="text-secondary">{"Null"}</span>
           </p>
         )}
-        <div className="d-flex justify-content-between" style={{ width: "35%" }}>
+        <div className="d-flex justify-content-between flex-wrap" style={{ width: "20vmax" }}>
 
           <button
-            class="btn btn-info"
+            class="btn btn-info mb-3"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target={`#rocketInfo${props.id}`}
@@ -66,7 +66,7 @@ export default function LaunchesCard(props) {
             View Rocket Info
         </button>
           <button
-            class="btn btn-danger"
+            class="btn btn-danger mb-3"
             style={{ color: "white", background: "#ff3232" }}
             type="button"
             data-bs-toggle="collapse"
@@ -96,9 +96,24 @@ export default function LaunchesCard(props) {
             src="https://assets9.lottiefiles.com/private_files/lf30_pxhw9ty3.json"
             style={{ height: '200px', width: '200px' }}
           /> */}
-          <iframe id={`launchVideo${props.id}player`} type="text/html" width="640" height="360"
-            src={`https://www.youtube.com/embed/${getYouTubeID(links.video_link)}`}
-            frameborder="0"></iframe>
+          <div style={{
+            position: "relative",
+            overflow: "hidden",
+            width: "100%",
+            paddingTop: "56.25%",
+          }}>
+            <iframe id={`launchVideo${props.id}player`} type="text/html" style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+              width: "100%",
+              height: "100%"
+            }}
+              src={`https://www.youtube.com/embed/${getYouTubeID(links.video_link)}`}
+              frameborder="0"></iframe>
+          </div>
           {/* <YouTube videoId={getYouTubeID(links.video_link)} /> */}
         </div>
       </div>

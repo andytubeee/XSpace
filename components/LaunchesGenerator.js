@@ -180,7 +180,6 @@ export default function LaunchesGenerator(props) {
               .map((launch, index) => (
                 <LaunchesCard launch={launch} id={index} />
               ))}
-          {data && console.log(data.launches)}
         </>
       )}
 

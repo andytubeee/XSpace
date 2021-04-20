@@ -2,7 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import LaunchesCard from "./LaunchesCard";
 import Swal from "sweetalert2";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const LAUNCHES_QUERY = gql`
   query LaunchesQuery {
@@ -27,11 +27,13 @@ const LAUNCHES_QUERY = gql`
   }
 `;
 
+
 export default function LaunchesGenerator(props) {
   const { loading, error, data } = useQuery(LAUNCHES_QUERY);
   const [amount, setAmount] = useState(0);
   const [newData, setNewData] = useState([]);
   const [ready, setReady] = useState(false);
+  const [generated, setGenerated] = useState([])
 
   const router = useRouter();
 
@@ -54,6 +56,13 @@ export default function LaunchesGenerator(props) {
 
     return array;
   }
+
+  useEffect(() => {
+    if (data && amount) {
+      setGenerated(shuffle(Array.from(data.launches))
+        .splice(0, amount))
+    }
+  }, [amount])
 
   const handleGenerateClick = () => {
     if (error) {
@@ -104,13 +113,23 @@ export default function LaunchesGenerator(props) {
           });
           setAmount(Array.from(data.launches).length);
         }
+
+        // Error and exception handling
         if (amount == 0) {
           Swal.fire({
             icon: "error",
             title: "Error",
             text: `You cannot search for 0 query`,
           });
-        } else {
+        }
+        else if (amount % 1 != 0) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: `Floats?!?!`,
+          });
+        }
+        else {
           setReady(true);
         }
       } else {
@@ -118,6 +137,21 @@ export default function LaunchesGenerator(props) {
       }
     }
   };
+
+  // Filter dropdown component
+  const [filterOptions] = useState([
+    'Random',
+    'Mission ID',
+    'Mission Name',
+    'Launch Year',
+    'Launch Success'
+  ])
+  const [curFilter, setCurFilter] = useState(filterOptions[0])
+
+  useEffect(() => {
+    console.log(curFilter);
+  }, [curFilter])
+
 
   return (
     <>
@@ -146,17 +180,13 @@ export default function LaunchesGenerator(props) {
           <div className="d-flex justify-content-between align-items-center mt-3">
             <div class="form-group d-inline">
               <label for="filter-selector">Filter</label>
-              <select class="form-control" id="filter-selector" disabled={!ready} onClick={() => {
-                Swal.fire({
-                  icon: "warning",
-                  title: "Unavailable!",
-                  text: "Feature in development, stay tuned!",
-                });
-              }}>
-                <option>Mission ID</option>
-                <option>Launch Date</option>
-                <option>Launch Success</option>
-                <option>Mission Name</option>
+              <select class="form-control" id="filter-selector"
+                disabled={!ready}
+                onChange={e => setCurFilter(e.currentTarget.value)}
+              >
+                {filterOptions.map(option => (
+                  <option key={option} value={option}>{option}</option>
+                ))}
               </select>
             </div>
             <button
@@ -175,11 +205,9 @@ export default function LaunchesGenerator(props) {
       {ready && (
         <>
           {data &&
-            shuffle(Array.from(data.launches))
-              .splice(0, amount)
-              .map((launch, index) => (
-                <LaunchesCard launch={launch} id={index} />
-              ))}
+            Array.from(generated).map((launch, index) => (
+              <LaunchesCard launch={launch} id={index} />
+            ))}
         </>
       )}
 

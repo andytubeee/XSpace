@@ -37,6 +37,7 @@ export default function LaunchesGenerator(props) {
 
   const router = useRouter();
 
+  // Array shuffle function
   function shuffle(array) {
     var currentIndex = array.length,
       temporaryValue,
@@ -57,6 +58,7 @@ export default function LaunchesGenerator(props) {
     return array;
   }
 
+  // Set generate on amount change
   useEffect(() => {
     if (data && amount) {
       setGenerated(shuffle(Array.from(data.launches))
@@ -64,6 +66,7 @@ export default function LaunchesGenerator(props) {
     }
   }, [amount])
 
+  // Generate on click
   const handleGenerateClick = () => {
     if (error) {
       Swal.fire({
@@ -114,6 +117,14 @@ export default function LaunchesGenerator(props) {
           setAmount(Array.from(data.launches).length);
         }
 
+        if (generated.length == 0) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: `Failed to generate, please refresh!`,
+          });
+        }
+
         // Error and exception handling
         if (amount == 0) {
           Swal.fire({
@@ -138,7 +149,7 @@ export default function LaunchesGenerator(props) {
     }
   };
 
-  // Filter dropdown component
+  // Filter dropdown options
   const [filterOptions] = useState([
     'Random',
     'Mission ID',
@@ -146,10 +157,47 @@ export default function LaunchesGenerator(props) {
     'Launch Year',
     'Launch Success'
   ])
-  const [curFilter, setCurFilter] = useState(filterOptions[0])
+  const [curFilter, setCurFilter] = useState("")
+
+
+  // Sorting launch
+  // Random
+  const randomizedLaunch = React.useMemo(() => shuffle([...generated]), [generated])
+
+  // Mission ID
+  const s_mission_id_launch = React.useMemo(() =>
+    [...generated].sort((a, b) => (a.mission_id > b.mission_id) ? 1 : ((b.mission_id > a.mission_id) ? -1 : 0)), [generated]
+  )
+  // Mission Name
+  const s_mission_name_launch = React.useMemo(() =>
+    [...generated].sort((a, b) => (a.mission_name > b.mission_name) ? 1 : ((b.mission_name > a.mission_name) ? -1 : 0)), [generated]
+  )
+  // Launch Year
+  const s_launch_year = React.useMemo(() =>
+    [...generated].sort((a, b) => a.launch_year - b.launch_year), [generated]
+  )
+
+  //Launch Success 
+  const s_launch_success = React.useMemo(() => [...generated].sort((a, b) => a.launch_success - b.launch_success), [generated])
 
   useEffect(() => {
     console.log(curFilter);
+    if (curFilter === 'Random') {
+      setGenerated(randomizedLaunch)
+    }
+    else if (curFilter === 'Mission ID') {
+      setGenerated(s_mission_id_launch)
+    }
+    else if (curFilter === 'Launch Year') {
+      setGenerated(s_launch_year)
+    }
+    else if (curFilter === 'Launch Success') {
+      setGenerated(s_launch_success)
+    }
+    else if (curFilter === 'Mission Name') {
+      setGenerated(s_mission_name_launch)
+    }
+
   }, [curFilter])
 
 
@@ -178,17 +226,19 @@ export default function LaunchesGenerator(props) {
           ></input>
 
           <div className="d-flex justify-content-between align-items-center mt-3">
-            <div class="form-group d-inline">
-              <label for="filter-selector">Filter</label>
-              <select class="form-control" id="filter-selector"
-                disabled={!ready}
-                onChange={e => setCurFilter(e.currentTarget.value)}
-              >
-                {filterOptions.map(option => (
-                  <option key={option} value={option}>{option}</option>
-                ))}
-              </select>
-            </div>
+            {(ready && generated.length > 1) && (
+              <div class="form-group d-inline">
+                <label for="filter-selector">Filter</label>
+                <select class="form-control" id="filter-selector"
+                  disabled={!ready}
+                  onChange={e => setCurFilter(e.currentTarget.value)}
+                >
+                  {filterOptions.map(option => (
+                    <option key={option} value={option}>{option}</option>
+                  ))}
+                </select>
+              </div>
+            )}
             <button
               type="button"
               class="btn btn-primary mt-3"

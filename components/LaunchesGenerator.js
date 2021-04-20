@@ -184,7 +184,7 @@ export default function LaunchesGenerator(props) {
         </>
       )}
 
-      <footer className='text-center' style={(!ready || amount <= 2) ? {
+      <footer className='text-center' style={(!ready || amount <= 1) ? {
         position: "absolute",
         left: 0,
         bottom: 20,

@@ -146,7 +146,13 @@ export default function LaunchesGenerator(props) {
           <div className="d-flex justify-content-between align-items-center mt-3">
             <div class="form-group d-inline">
               <label for="filter-selector">Filter</label>
-              <select class="form-control" id="filter-selector" disabled={!ready}>
+              <select class="form-control" id="filter-selector" disabled={!ready} onClick={() => {
+                Swal.fire({
+                  icon: "warning",
+                  title: "Unavailable!",
+                  text: "Feature in development, stay tuned!",
+                });
+              }}>
                 <option>Mission ID</option>
                 <option>Launch Date</option>
                 <option>Launch Success</option>

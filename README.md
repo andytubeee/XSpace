@@ -9,6 +9,8 @@ Application developed using SpaceX's v3 API.
 - Next.js
 - React
 - GraphQL
+- Apollo Server
+- Apollo Client
 - Express
 
 ## Functions
